@@ -62,7 +62,7 @@ resource random_uuid grupo2 {}
 resource "azurerm_role_definition" "grupo2" {
   name               = "grupo2"
   role_definition_id = random_uuid.grupo2.result
-  scope              = data.azurerm_subscription.primary.id
+  scope              = resource.azurerm_kubernetes_cluster.grupo2.id
   description        = "This is a custom role created via Terraform"
 
   permissions {
