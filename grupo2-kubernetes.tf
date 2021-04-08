@@ -55,18 +55,24 @@ resource "azurerm_kubernetes_cluster" "grupo2" {
   }
 }
 
+
+data "azurerm_subscription" "primary" {}
+resource random_uuid grupo2 {}
+
 resource "azurerm_role_definition" "grupo2" {
-  role_definition_id = "ba290e46-9806-11eb-a8b3-0242ac130003"
-  name               = "grupo2-role"
-  scope              = "/subscriptions/513140d0-b180-4730-9451-6bbbdecdbc57"
+  name               = "grupo2"
+  role_definition_id = random_uuid.grupo2.result
+  scope              = data.azurerm_subscription.primary.id
+  description        = "This is a custom role created via Terraform"
 
   permissions {
-    actions     = ["Microsoft.Resources/subscriptions/resourceGroups/read"]
+    actions     = ["*"]
     not_actions = []
   }
 
-  assignable_scopes = ["subscriptions/513140d0-b180-4730-9451-6bbbdecdbc57"]
-
+  assignable_scopes = [
+    data.azurerm_subscription.primary.id,
+  ]
 }
 
 data "azurerm_public_ip" "grupo2" {
