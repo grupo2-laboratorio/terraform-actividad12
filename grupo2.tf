@@ -55,6 +55,20 @@ resource "azurerm_kubernetes_cluster" "grupo2" {
   }
 }
 
+resource "azurerm_role_definition" "grupo2" {
+  role_definition_id = "ba290e46-9806-11eb-a8b3-0242ac130003"
+  name               = "grupo2-role"
+  scope              = "/subscriptions/513140d0-b180-4730-9451-6bbbdecdbc57"
+
+  permissions {
+    actions     = ["Microsoft.Resources/subscriptions/resourceGroups/read"]
+    not_actions = []
+  }
+
+  assignable_scopes = ["subscriptions/513140d0-b180-4730-9451-6bbbdecdbc57"]
+
+}
+
 data "azurerm_public_ip" "grupo2" {
   name                = reverse(split("/", tolist(azurerm_kubernetes_cluster.grupo2.network_profile.0.load_balancer_profile.0.effective_outbound_ips)[0]))[0]
   resource_group_name = azurerm_kubernetes_cluster.grupo2.node_resource_group
