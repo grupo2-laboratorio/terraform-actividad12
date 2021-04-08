@@ -8,7 +8,7 @@ provider "azurerm" {
 
 
 resource "azurerm_resource_group" "grupo2" {
-  name     = "grupo2-vmlmv"
+  name     = "grupo2"
   location = "eastus2"
 }
 
